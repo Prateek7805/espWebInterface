@@ -1,0 +1,4 @@
+navPane - 0A1931
+ItemsHover - 1B1A17
+bg - FDFAF6
+size - 20kb

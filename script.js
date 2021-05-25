@@ -1,0 +1,62 @@
+//helper functions
+function doc(id){
+    return document.getElementById(id);
+}
+
+function dc(className){
+    return document.getElementsByClassName(className)[0];
+}
+
+function er(msg){
+    console.log(msg);
+}
+
+function animate({timing, draw, duration}) {
+
+    let start = performance.now();
+  
+    requestAnimationFrame(function animate(time) {
+      // timeFraction goes from 0 to 1
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1;
+  
+      // calculate the current animation state
+      let progress = timing(timeFraction)
+      
+      draw(progress); // draw it
+  
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      }
+  
+    });
+  }
+
+doc('side-hamburger').addEventListener('click', sideNavAnimate);
+function sideNavAnimate(){
+    var self = this;
+    animate({
+        duration: 1500,
+        timing: function(timeFraction) {
+            var val = (1/(1+Math.exp(-(30*timeFraction-5))));
+            if(doc('side-hamburger').checked == true)
+                return val;
+            else
+                return 1 - val;
+        },
+        draw: function(progress) {
+            dc('left-nav').style.width = 20*progress + '%';
+            
+            if(self.checked)
+                dc('main').style.width = (100 - (20*progress)) + '%';
+            else
+                dc('main').style.width = (80 + 15*(1-progress)) + '%';
+            er(dc('main').style.width)
+            er(self.checked)
+            var angle = Math.round(progress*180);
+           
+            doc('hamburger-icon').style.transform = 'rotate('+(angle)+'deg)';
+            
+        }
+    });
+}
