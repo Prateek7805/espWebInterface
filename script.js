@@ -1,3 +1,18 @@
+var windowWidth, windowHeight;
+
+window.addEventListener('resize', getWindowSize);
+window.addEventListener('load', getWindowSize);
+function getWindowSize(){
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+    if(windowWidth>767){
+        dc('left-nav').style.width = '0%';
+        dc('left-nav').style.height = '100%';   
+    }else{
+        dc('left-nav').style.width = '100%';
+        dc('left-nav').style.height = '0%';   
+    }
+}
 //helper functions
 function doc(id){
     return document.getElementById(id);
@@ -45,18 +60,31 @@ function sideNavAnimate(){
                 return 1 - val;
         },
         draw: function(progress) {
-            dc('left-nav').style.width = 20*progress + '%';
             
-            if(self.checked)
-                dc('main').style.width = (100 - (20*progress)) + '%';
-            else
-                dc('main').style.width = (80 + 15*(1-progress)) + '%';
-            er(dc('main').style.width)
-            er(self.checked)
-            var angle = Math.round(progress*180);
-           
-            doc('hamburger-icon').style.transform = 'rotate('+(angle)+'deg)';
+            if(windowWidth>767){
+                
+                dc('left-nav').style.width = 20*progress + '%';  
+                if(self.checked)
+                    dc('main').style.width = (100 - (20*progress)) + '%';
+                else
+                    dc('main').style.width = (80 + 15*(1-progress)) + '%';
+            }else{
+
+                    dc('left-nav').style.height = 50*progress + '%';  
+                    
+                }
+                var angle = Math.round(progress*180);
             
+                doc('hamburger-icon').style.transform = 'rotate('+(angle)+'deg)';
+                
         }
     });
+}
+
+var radioArray = document.getElementsByClassName("inv-radio")
+for(var item in radioArray){
+    if(radioArray[item].id)
+            radioArray[item].addEventListener('change', function(){
+            er(this.id)
+        })
 }
