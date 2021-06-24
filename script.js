@@ -5,13 +5,8 @@ window.addEventListener('load', getWindowSize);
 function getWindowSize(){
     windowWidth = window.innerWidth;
     windowHeight = window.innerHeight;
-    if(windowWidth>767){
-        dc('left-nav').style.width = '0%';
-        dc('left-nav').style.height = '100%';   
-    }else{
-        dc('left-nav').style.width = '100%';
-        dc('left-nav').style.height = '0%';   
-    }
+    er((dc('left-nav').offsetWidth/windowWidth));
+   
 }
 //helper functions
 function doc(id){
@@ -69,9 +64,7 @@ function sideNavAnimate(){
                 else
                     dc('main').style.width = (80 + 15*(1-progress)) + '%';
             }else{
-
-                    dc('left-nav').style.height = 50*progress + '%';  
-                    
+                    dc('left-nav').style.height = 50*progress + '%';   
                 }
                 var angle = Math.round(progress*180);
             
